@@ -2,6 +2,7 @@ import express from 'express'
 import signup from '../controllers/signup.js'
 import multer from 'multer'
 import shortid from 'shortid'
+import getAll from '../controllers/getAll.js'
 let router=express.Router()
 
 
@@ -20,6 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/signup',upload.single('profileImage'),signup)
+router.get('/getall',getAll)
 
 
 export default router
