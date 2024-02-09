@@ -7,11 +7,14 @@ env.config({
 })
 
 
+
+
 let signup=async (req,res)=>
 {
     let {firstName,lastName,email,password}=req.body
-    let profile=req.file
-    console.log(profile)
+    let baseUrl=process.env.BASE_URL || 'http://localhost:8000/'
+    let profileImage=req.file
+    console.log(profileImage+"Li")
     let foundUser=await SignUp.findOne({email})
     if(foundUser)
     {
@@ -20,7 +23,7 @@ let signup=async (req,res)=>
     if(!foundUser)
     {
         console.log("last jion");
-        let userObject={profileImage:process.env.BASE_URL+"public/"+profile.filename,...req.body}
+        let userObject={profileImage:baseUrl+"public/"+profileImage.filename,...req.body}
         let newUser=await SignUp.create(userObject)
         let {firstName,email,_id}=newUser
         let token=jwt.sign({firstName,email,_id},process.env.JWT_PASSWORD,{expiresIn:"2h"})

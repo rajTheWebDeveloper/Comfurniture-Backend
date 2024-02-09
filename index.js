@@ -7,11 +7,17 @@ import UserRoutes from './routes/user.js'
 import cookieParser from 'cookie-parser'
 
 let app=express()
+app.use(cors())
+
+
 env.config({
   path: "./config/.env",
 });
+
 app.use(express.json())
 app.use(cookieParser())
+
+
 app.use('/public',express.static('./uploads'))
 app.use('/user',UserRoutes)
 
@@ -27,6 +33,8 @@ let start=async()=>
         console.log(`Connected to port ${PORT}`)
     })
 }
+
+
 
 
 start()
