@@ -3,10 +3,11 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import env from 'dotenv'
 import connect from './connect.js'
-import UserRoutes from './routes/user.js'
 import cookieParser from 'cookie-parser'
+import UsersRoutes from './routes/users.js'
 
 let app=express()
+app.use(express.json());
 app.use(cors())
 
 
@@ -14,12 +15,12 @@ env.config({
   path: "./config/.env",
 });
 
-app.use(express.json())
+
 app.use(cookieParser())
 
 
 app.use('/public',express.static('./uploads'))
-app.use('/user',UserRoutes)
+app.use('/user',UsersRoutes)
 
 
 
