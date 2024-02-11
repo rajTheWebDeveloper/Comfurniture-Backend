@@ -14,7 +14,6 @@ let RegisterUser = async (req, res) => {
     let profileImage = req.file;
     console.log(req.file);
     let foundUser = await Users.findOne({ email });
-
     let userObject = {
       ...req.body,
       profileImage: profileImage
