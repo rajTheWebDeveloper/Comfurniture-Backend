@@ -14,12 +14,14 @@ let RegisterUser = async (req, res) => {
     let profileImage = req.file;
     console.log(req.file);
     let foundUser = await Users.findOne({ email });
+
     let userObject = {
       ...req.body,
       profileImage: profileImage
         ? hostSpot + "public/" + profileImage.filename
         : null,email:email.toLowerCase()
     }
+    console.log(userObject)
     if (!foundUser) 
     {
       let createdUser = await Users.create(userObject);
