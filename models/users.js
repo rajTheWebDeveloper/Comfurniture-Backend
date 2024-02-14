@@ -22,6 +22,7 @@ let usersSchema=new mongoose.Schema({
 })
 
 
+
 usersSchema.pre('save',async function()
 {
     try 
@@ -33,6 +34,12 @@ usersSchema.pre('save',async function()
         console.log(e)
     }
 })
+
+
+usersSchema.methods.authenticate=async function (password)
+{
+    return await bcrypt.compare(password,this.password)
+}
 
 
 export default mongoose.model('Users',usersSchema)

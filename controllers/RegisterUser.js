@@ -1,7 +1,9 @@
 import express from "express";
 import env from "dotenv";
+import shortid from 'shortid'
 import Users from "../models/users.js";
 import jwt from 'jsonwebtoken'
+import generateRand from "../utilities/generateRand.js";
 env.config({
   path: "../config/.env",
 })
@@ -28,16 +30,16 @@ let RegisterUser = async (req, res) => {
       let token=jwt.sign({_id,firstName},process.env.JWT_PASSWORD,{expiresIn:'8h'})
       return res.send({
         success: true,
-        token:token,
+        token: token,
         data: createdUser,
-        msg: "Account created successfully",
+        msg: "Account created successfully"
       });
     } else {
       return res.send({
         success: false,
         data: null,
-        msg: "Account already exists. Try Signing In",
-      })
+        msg: "Account already exists. Try Signing In"
+      });
     }
   } catch (e) {
     console.log("Register User Exception",e)
