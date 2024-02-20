@@ -10,7 +10,7 @@ let addToCart=async (req,res)=>
    let whetherUserHasCart=await Cart.findOne({user});
    if(!whetherUserHasCart)
    {
-      let createACartForTheUserAndAddTheFirstProduct=await Cart.create({user:user,cartItems:[{stock:stock,name:"MILAN",amount:amount,price:price,productImage:productImage}]});
+      let createACartForTheUserAndAddTheFirstProduct=await Cart.create({user:user,cartItems:[{stock:stock,name:name,amount:amount,price:price,productImage:productImage}]});
       return res.send(createACartForTheUserAndAddTheFirstProduct)
    }
    else
