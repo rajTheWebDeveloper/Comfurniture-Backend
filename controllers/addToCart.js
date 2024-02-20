@@ -2,41 +2,50 @@ import express from 'express'
 import Cart from '../models/cart.js'
 
 
-
 let addToCart=async (req,res)=>
 {
-
-
-    // If there is no user create a new user
-    let {name,amount,price}=req.body
-    let {user}=req.cookies
-    let foundUser=await Cart.findOne({user})
-    console.log(foundUser)
-    if(!foundUser)
-    {
-        let createdUser=await Cart.create({user,cartItems:[{name,amount,price}]})
-        return res.send(createdUser)
-    }
-    else 
-    {
-      // If there is same product increase the amount
-      let { cartItems } = foundUser;
-      let updatedCartItems=cartItems.map((items)=>
-      {
-        console.log("I am printing ");
-         if (items.name.toLowerCase() === name.toLowerCase()) {
-           console.log("I am printing 2");
-           return { ...items, amount: 9 };
-         }
-         console.log("I am not printing 3");
-         return items;
-      })
-      return res.send(updatedCartItems)
-    //   let updateAmount = await Cart.findOneAndUpdate({ user},);
-    }
-    
-    // If there is different product push it into the product array
-    return res.send(req.cookies)
+   let {name,amount,price,user,stock,productImage}=req.body;
+   console.log("MANICURE",stock)
+   console.log("DIMPUL",name,amount,price,user)
+   let whetherUserHasCart=await Cart.findOne({user});
+   if(!whetherUserHasCart)
+   {
+      let createACartForTheUserAndAddTheFirstProduct=await Cart.create({user:user,cartItems:[{stock:stock,name:"MILAN",amount:amount,price:price,productImage:productImage}]});
+      return res.send(createACartForTheUserAndAddTheFirstProduct)
+   }
+   else
+   {
+     let {cartItems,user}=whetherUserHasCart;
+     let foundIndex=cartItems.findIndex((items)=>
+     {
+       return items.name.toLowerCase()===name.toLowerCase()
+     })
+     if(foundIndex!==-1)
+     {
+         cartItems[foundIndex].amount =
+           stock <= Number(cartItems[foundIndex].amount + amount)
+             ? stock
+             : cartItems[foundIndex].amount + amount;
+     }
+     else 
+     {
+       cartItems.push({
+         name,
+         amount,
+         price,
+         stock: stock,
+         productImage:productImage,
+       });
+     }
+     console.log(cartItems)
+     let updatedCartOnDB = await Cart.findOneAndUpdate(
+       { user: user },
+       { cartItems: cartItems},
+       { new: true }
+     );
+    return res.send(updatedCartOnDB)
+   }
+   return res.send({msg:"NONE OF ABOVE EXECUTED"})
 }
 
 
