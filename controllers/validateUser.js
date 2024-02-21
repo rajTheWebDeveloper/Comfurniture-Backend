@@ -7,19 +7,26 @@ env.config({
 
 let validateUser=async (req,res,next)=>
 {
-    let token=req.headers.authorization;
-    console.log(token+"ARE MAWA EM LEDU RA")
-    let verified=jwt.verify(token,process.env.JWT_PASSWORD)
-    let {_id}=verified;
-    console.log(_id+"YOUR COUSIN")
-    if(verified)
+    try 
     {
-        res.cookie('user',_id)
-        next()
+        let token=req.headers.authorization;
+        console.log(token+"ARE MAWA EM LEDU RA")
+        let verified=jwt.verify(token,process.env.JWT_PASSWORD)
+        let {_id}=verified;
+        console.log(_id+"YOUR COUSIN")
+        if(verified)
+        {
+            req.cookie('user',_id)
+            next()
+        }
+        else 
+        {
+            return res.send("Something Wrong");
+        }
     }
-    else 
+    catch(e)
     {
-        return res.send("Something Wrong");
+        console.log("No JWT token provided")
     }
 }
 

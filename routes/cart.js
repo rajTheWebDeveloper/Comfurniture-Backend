@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/addtocart',validateUser,upload.single('productImage'),addToCart)
+router.post('/addtocart',upload.single('productImage'),addToCart)
 router.post('/increase',increaseCartAmount)
 router.post('/decrease',decreaseCartAmount)
 router.post('/getcartitems',getCartItems)
