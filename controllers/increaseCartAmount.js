@@ -13,7 +13,7 @@ let increaseCartAmount=async (req,res)=>
         return items.name.toLowerCase()===name.toLowerCase()
     })
     cartItems[cartIndex].amount =
-         stock >= Number(cartItems[cartIndex].amount + amount)
+         stock <= Number(cartItems[cartIndex].amount + amount)
            ? stock
            : cartItems[cartIndex].amount + amount;
     let increasedOnDB=await Cart.findOneAndUpdate({user:user},{cartItems:cartItems},{new:true})
