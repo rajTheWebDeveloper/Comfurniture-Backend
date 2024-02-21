@@ -11,7 +11,6 @@ let removeFromCart=async (req,res)=>
     {
         return items.name.toLowerCase()===name.toLowerCase()
     })
-
     
     cartItems.splice(foundIndex,1)
     let removedOnDB=await Cart.findOneAndUpdate({user:user},{
