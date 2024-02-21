@@ -22,10 +22,10 @@ let addToCart=async (req,res)=>
      })
      if(foundIndex!==-1)
      {
-         cartItems[foundIndex].amount =
-           stock <= Number(cartItems[foundIndex].amount + amount)
-             ? stock
-             : cartItems[foundIndex].amount + amount;
+         cartItems[foundIndex].amount = Math.min(
+           stock,
+           cartItems[cartIndex].amount + amount
+         );
      }
      else 
      {
