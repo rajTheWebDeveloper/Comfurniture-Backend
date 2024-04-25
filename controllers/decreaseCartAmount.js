@@ -9,7 +9,6 @@ let decreaseCartAmount = async (req, res) => {
     return items.name.toLowerCase() === name.toLowerCase();
   })
 
-
   if(cartItems[cartIndex].amount===1)
   {
     cartItems.splice(cartIndex,1)
@@ -19,6 +18,7 @@ let decreaseCartAmount = async (req, res) => {
     cartItems[cartIndex].amount = Number(cartItems[cartIndex].amount) - amount;
   }
 
+  
   let decreasedOnDB = await Cart.findOneAndUpdate(
     { user: user },
     { cartItems: cartItems },
